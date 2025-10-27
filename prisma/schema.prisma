@@ -16,6 +16,8 @@ model User {
   passwordHash  String
   avatarUrl     String?
   timezone      String    @default("UTC")
+  resetToken    String?
+  resetTokenExpiry DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   
