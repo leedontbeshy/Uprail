@@ -6,6 +6,7 @@ import { errorHandler } from './middleware/error.middleware';
 
 // Import routes
 import authRoutes from './modules/auth/auth.routes';
+import userRoutes from './modules/users/user.routes';
 
 /**
  * Create and configure Express application
@@ -22,6 +23,9 @@ export function createApp(): Application {
   app.use(express.urlencoded({ extended: true }));
   app.use(loggingMiddleware);
 
+  // Serve uploaded files
+  app.use('/uploads', express.static(env.UPLOAD_DIR));
+
   // Health check endpoint
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -29,6 +33,7 @@ export function createApp(): Application {
 
   // API routes
   app.use('/api/auth', authRoutes);
+  app.use('/api/users', userRoutes);
 
   // Error handling middleware (must be last)
   app.use(errorHandler);
