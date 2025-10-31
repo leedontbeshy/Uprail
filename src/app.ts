@@ -7,6 +7,7 @@ import { errorHandler } from './middleware/error.middleware';
 // Import routes
 import authRoutes from './modules/auth/auth.routes';
 import userRoutes from './modules/users/user.routes';
+import taskRoutes from './modules/tasks/task.routes';
 
 /**
  * Create and configure Express application
@@ -34,6 +35,7 @@ export function createApp(): Application {
   // API routes
   app.use('/api/auth', authRoutes);
   app.use('/api/users', userRoutes);
+  app.use('/api/tasks', taskRoutes);
 
   // Error handling middleware (must be last)
   app.use(errorHandler);
