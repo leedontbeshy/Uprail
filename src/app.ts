@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import { env } from './config/env';
 import { loggingMiddleware } from './middleware/logging.middleware';
-import { errorHandler } from './middleware/error.middleware';
+import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 
 // Import routes
 import authRoutes from './modules/auth/auth.routes';
@@ -42,6 +42,9 @@ export function createApp(): Application {
   app.use('/api/pomodoro', pomodoroRoutes);
   app.use('/api/streaks', streakRoutes);
   app.use('/api/achievements', achievementRoutes);
+
+  // 404 handler for undefined routes (must be after all routes)
+  app.use(notFoundHandler);
 
   // Error handling middleware (must be last)
   app.use(errorHandler);

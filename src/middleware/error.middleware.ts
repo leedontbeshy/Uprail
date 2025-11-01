@@ -60,6 +60,20 @@ export class ConflictError extends AppError {
   }
 }
 
+export class DatabaseError extends AppError {
+  constructor(message: string = 'Database error occurred') {
+    super(503, 'DATABASE_ERROR', message);
+    this.name = 'DatabaseError';
+  }
+}
+
+export class InternalServerError extends AppError {
+  constructor(message: string = 'Internal server error') {
+    super(500, 'INTERNAL_ERROR', message);
+    this.name = 'InternalServerError';
+  }
+}
+
 /**
  * Global error handling middleware
  * Catches all errors and formats them consistently
@@ -70,13 +84,14 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ): void {
-  // Log error for debugging
-  console.error('Error:', {
+  // Log error for debugging (unhandled exceptions are logged with full stack trace)
+  console.error('Error occurred:', {
     name: err.name,
     message: err.message,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    stack: err.stack,
     path: req.path,
     method: req.method,
+    timestamp: new Date().toISOString(),
   });
 
   // Handle Zod validation errors
@@ -119,7 +134,14 @@ export function errorHandler(
     return;
   }
 
-  // Default to 500 internal server error
+  // Default to 500 internal server error for unhandled exceptions
+  // Log the full error details for debugging
+  console.error('Unhandled exception:', {
+    error: err,
+    stack: err.stack,
+    timestamp: new Date().toISOString(),
+  });
+  
   sendInternalError(
     res,
     process.env.NODE_ENV === 'development'
