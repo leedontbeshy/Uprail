@@ -36,6 +36,10 @@ export async function register(
     passwordHash,
   });
 
+  if (!user) {
+    throw new Error('Failed to create user');
+  }
+
   // Generate token
   const token = generateToken({
     userId: user.id,

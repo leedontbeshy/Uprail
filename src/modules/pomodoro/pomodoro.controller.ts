@@ -6,7 +6,7 @@ import {
   sendNotFoundError,
   sendAuthorizationError,
 } from '../../utils/response.util';
-import { StartSessionInput, QuerySessionsInput } from './pomodoro.schemas';
+import { StartSessionInput } from './pomodoro.schemas';
 
 /**
  * Start a new Pomodoro session
