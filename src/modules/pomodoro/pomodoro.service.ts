@@ -1,5 +1,6 @@
 import * as pomodoroRepository from './pomodoro.repository';
 import * as taskRepository from '../tasks/task.repository';
+import * as achievementService from '../achievements/achievement.service';
 import { PomodoroSession, SessionStatus } from '@prisma/client';
 import { SessionWithTask } from './pomodoro.repository';
 
@@ -51,10 +52,18 @@ export async function completeSession(
     throw new Error('Session is not in progress');
   }
 
-  return await pomodoroRepository.updateSession(sessionId, {
+  const updatedSession = await pomodoroRepository.updateSession(sessionId, {
     endTime: new Date(),
     status: 'COMPLETED',
   });
+
+  // Check and award achievements after completing session
+  // This runs asynchronously and doesn't block the response
+  achievementService.checkAchievementsAfterSession(userId).catch((error) => {
+    console.error('Error checking achievements:', error);
+  });
+
+  return updatedSession;
 }
 
 /**
