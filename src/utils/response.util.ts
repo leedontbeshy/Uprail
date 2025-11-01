@@ -18,6 +18,17 @@ export interface ErrorResponse {
 export type ApiResponse<T = any> = SuccessResponse<T> | ErrorResponse;
 
 /**
+ * Create a success response object
+ */
+export function successResponse<T>(data: T, message?: string): SuccessResponse<T> {
+  return {
+    success: true,
+    data,
+    ...(message && { message }),
+  };
+}
+
+/**
  * Send a successful response
  */
 export function sendSuccess<T>(

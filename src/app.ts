@@ -9,6 +9,7 @@ import authRoutes from './modules/auth/auth.routes';
 import userRoutes from './modules/users/user.routes';
 import taskRoutes from './modules/tasks/task.routes';
 import pomodoroRoutes from './modules/pomodoro/pomodoro.routes';
+import streakRoutes from './modules/streaks/streak.routes';
 
 /**
  * Create and configure Express application
@@ -38,6 +39,7 @@ export function createApp(): Application {
   app.use('/api/users', userRoutes);
   app.use('/api/tasks', taskRoutes);
   app.use('/api/pomodoro', pomodoroRoutes);
+  app.use('/api/streaks', streakRoutes);
 
   // Error handling middleware (must be last)
   app.use(errorHandler);

@@ -20,6 +20,15 @@ export interface UserProfile {
 }
 
 /**
+ * Get user by ID (basic info only)
+ */
+export async function getUserById(userId: string) {
+  return await prisma.user.findUnique({
+    where: { id: userId },
+  });
+}
+
+/**
  * Get user profile with calculated statistics
  */
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
