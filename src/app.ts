@@ -10,6 +10,7 @@ import userRoutes from './modules/users/user.routes';
 import taskRoutes from './modules/tasks/task.routes';
 import pomodoroRoutes from './modules/pomodoro/pomodoro.routes';
 import streakRoutes from './modules/streaks/streak.routes';
+import achievementRoutes from './modules/achievements/achievement.routes';
 
 /**
  * Create and configure Express application
@@ -40,6 +41,7 @@ export function createApp(): Application {
   app.use('/api/tasks', taskRoutes);
   app.use('/api/pomodoro', pomodoroRoutes);
   app.use('/api/streaks', streakRoutes);
+  app.use('/api/achievements', achievementRoutes);
 
   // Error handling middleware (must be last)
   app.use(errorHandler);
